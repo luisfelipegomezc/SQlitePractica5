@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
+    Double Vent_Total = Double.valueOf(0);
     SQLiteDatabase db;
     Button bAgregar, bActualizar, bEliminar, bBuscar, bDatos, bVenta;
     EditText eIdPeluche, eNombre, eCantidad, eValor;
@@ -135,6 +136,7 @@ public class MainActivity extends AppCompatActivity {
 
     protected void venta(){
         Intent intent = new Intent(this, Venta.class);
+        intent.putExtra("Total", Vent_Total);
         startActivity(intent);
     }
 

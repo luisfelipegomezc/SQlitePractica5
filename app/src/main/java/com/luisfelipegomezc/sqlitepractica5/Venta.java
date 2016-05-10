@@ -17,6 +17,7 @@ public class Venta extends AppCompatActivity {
     SQLiteDatabase db;
     int cantidades = 0, stock = 0;
     Double total = Double.valueOf(0), Vent_Total = Double.valueOf(0);
+
     Button bRegresar, bVer, bCalcular, bAceptar;
     EditText eIdPeluche, eNombre, eCantidad, eTotal;
     TextView tValor, tTotal, tVentaTotal;
@@ -162,7 +163,7 @@ public class Venta extends AppCompatActivity {
                         tTotal.setText(String.valueOf(""));
                         Toast toast = Toast.makeText(getApplicationContext(), "En bodega = "+stock+ " Unidades", Toast.LENGTH_LONG);
                         toast.show();
-
+                        tVentaTotal.setText(String.valueOf(Vent_Total));
                         if(stock<6){
                             toast = Toast.makeText(getApplicationContext(), "Pocas existencias", Toast.LENGTH_LONG);
                             toast.show();
@@ -183,10 +184,36 @@ public class Venta extends AppCompatActivity {
 
     protected void regresar(){
         Intent intent = new Intent(this, MainActivity.class);
+        intent.putExtra("Total", Vent_Total);
         startActivity(intent);
     }
 
     protected void cantidad(){
         //cantidades = Integer.parseInt(eCantidad.getText().toString());
     }
+/*
+    @Override
+    protected void onSaveInstanceState(Bundle outState){
+
+        outState.putDouble("Total", Vent_Total);
+        super.onSaveInstanceState(outState);
+    }
+
+@Override
+public void onSaveInstanceState(Bundle savedInstanceState) {
+    // Save variables on screen orientation change. Save the user's current game state
+    savedInstanceState.putInt(STATE_SCORE, mCurrentScore);
+    savedInstanceState.putString(STATE_NAME, mCurrentName);
+
+    // Always call the superclass so it can save the view hierarchy state
+    super.onSaveInstanceState(savedInstanceState);
+
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState){
+        super.onRestoreInstanceState(savedInstanceState);
+        Vent_Total = savedInstanceState.getDouble("Total");
+        tVentaTotal.setText(String.valueOf(Vent_Total));
+    }*/
+
 }
