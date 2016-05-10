@@ -19,13 +19,19 @@ public class Venta extends AppCompatActivity {
     Double total = Double.valueOf(0), Vent_Total = Double.valueOf(0);
     Button bRegresar, bVer, bCalcular, bAceptar;
     EditText eIdPeluche, eNombre, eCantidad, eTotal;
-    TextView tValor, tTotal;
+    TextView tValor, tTotal, tVentaTotal;
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_venta);
+
+
+
+        Toast toast = Toast.makeText(getApplicationContext(), "Favor iniciar proceso con el nombre del peluche", Toast.LENGTH_LONG);
+        toast.show();
 
         final InventarioSQLiteHelper inventario = new InventarioSQLiteHelper(this);
         db = inventario.getWritableDatabase();
@@ -36,11 +42,14 @@ public class Venta extends AppCompatActivity {
 
         tTotal = (TextView) findViewById(R.id.tTotal);
         tValor = (TextView) findViewById(R.id.tValor);
+        tVentaTotal = (TextView) findViewById(R.id.tTotalVenta);
 
         bRegresar = (Button) findViewById(R.id.bRegresar);
         bVer = (Button) findViewById(R.id.bVer);
         bCalcular = (Button) findViewById(R.id.bCalcular);
         bAceptar = (Button) findViewById(R.id.bAceptar);
+
+        tVentaTotal.setText(String.valueOf(Vent_Total));
 
         bVer.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -135,16 +144,17 @@ public class Venta extends AppCompatActivity {
 
                             stock = cant - cantidades;
                         }while (c.moveToNext());
-                    }
+
 
                     if(stock >= 0){
                         String cadena = Integer.toString(stock);
                         ContentValues nuevoRegistro = new ContentValues();
                         nuevoRegistro.put("nombre",nombre);
-                        nuevoRegistro.put("cantidad",cadena);
-                        nuevoRegistro.put("valor",valor);
+                        nuevoRegistro.put("cantidad", cadena);
+                        nuevoRegistro.put("valor", valor);
 
                         db.update("Inventario", nuevoRegistro, "id_peluche=" + id_peluche, null);
+                        Vent_Total = Vent_Total + Double.parseDouble(tValor.getText().toString());
                         eIdPeluche.setText(String.valueOf(""));
                         eNombre.setText(String.valueOf(""));
                         tValor.setText(String.valueOf(""));
@@ -152,11 +162,19 @@ public class Venta extends AppCompatActivity {
                         tTotal.setText(String.valueOf(""));
                         Toast toast = Toast.makeText(getApplicationContext(), "En bodega = "+stock+ " Unidades", Toast.LENGTH_LONG);
                         toast.show();
+                        tVentaTotal.setText(String.valueOf(Vent_Total));
+                        if(stock<6){
+                            toast = Toast.makeText(getApplicationContext(), "Pocas existencias", Toast.LENGTH_LONG);
+                            toast.show();
+                        }
                         stock = 0;
                         cantidades = 0;
 
+                    }else{
+                        Toast toast = Toast.makeText(getApplicationContext(), "No Hay suficientes Unidades", Toast.LENGTH_LONG);
+                        toast.show();
                     }
-
+                    }
 
                 }
             }
