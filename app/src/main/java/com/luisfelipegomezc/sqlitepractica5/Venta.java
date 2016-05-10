@@ -49,7 +49,7 @@ public class Venta extends AppCompatActivity {
         bCalcular = (Button) findViewById(R.id.bCalcular);
         bAceptar = (Button) findViewById(R.id.bAceptar);
 
-        tVentaTotal.setText(String.valueOf(Vent_Total));
+
 
         bVer.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -162,7 +162,7 @@ public class Venta extends AppCompatActivity {
                         tTotal.setText(String.valueOf(""));
                         Toast toast = Toast.makeText(getApplicationContext(), "En bodega = "+stock+ " Unidades", Toast.LENGTH_LONG);
                         toast.show();
-                        tVentaTotal.setText(String.valueOf(Vent_Total));
+
                         if(stock<6){
                             toast = Toast.makeText(getApplicationContext(), "Pocas existencias", Toast.LENGTH_LONG);
                             toast.show();
